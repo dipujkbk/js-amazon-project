@@ -656,5 +656,37 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "bc2847e9-5323-403f-b7cf-57fde044a956",
+    image: "images/products/backpack.jpg",
+    name: "Laptop Bag",
+    rating: {
+      stars: 4,
+      count: 3144
+    },
+    priceCents: 2100,
+    keywords: [
+      "bag",
+      "laptop",
+      "handbag",
+      "mens"
+    ]
+  },
+  {
+    id: "bc2847e9-5323-403f-b7cf-57fde044a996",
+    image: "images/products/umbrella.jpg",
+    name: "Black Umbrella",
+    rating: {
+      stars: 4.5,
+      count: 2344
+    },
+    priceCents: 400,
+    keywords: [
+      "rain",
+      "umbrella",
+      "handbag",
+      "mens"
+    ]
   }
-];
+]
