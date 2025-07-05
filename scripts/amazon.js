@@ -1,7 +1,7 @@
-let productsHTML ='';
+let productsHTML = "";
 
 products.forEach((product) => {
- productsHTML += `
+  productsHTML += `
     <div class="product-container">
         <div class="product-image-container">
             <img class="product-image"
@@ -14,7 +14,7 @@ products.forEach((product) => {
 
         <div class="product-rating-container">
             <img class="product-rating-stars"
-                src="images/ratings/rating-${(product.rating.stars * 10)}.png">
+                src="images/ratings/rating-${product.rating.stars * 10}.png">
             <div class="product-rating-count link-primary">
                 ${product.rating.count}
             </div>
@@ -46,14 +46,49 @@ products.forEach((product) => {
         Added
         </div>
 
-        <button class="add-to-cart-button button-primary">
-        Add to Cart
+        <button class="add-to-cart-button button-primary js-add-to-cart" 
+        data-product-id="${product.id}"
+        >
+            Add to Cart
         </button>
     </div>
     `;
 });
 
-console.log(productsHTML);
+document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-document.querySelector('.js-products-grid')
-    .innerHTML = productsHTML;
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    /*
+        - Now how do we know which product to add when we click
+        - So here we will use data attribute in html
+
+        - it allows us to attach any information to an element
+        - Syntax
+        - starts with data-name-of-property(data-product-name)
+        - to retrive
+            button.dataset.productMap
+
+        */
+    console.log(button.dataset.productId);
+    const productId = button.dataset.productId;
+
+    let matchingProductFound = false;
+
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        item.quantity++;
+        matchingProductFound = true;
+      }
+    });
+
+    if (!matchingProductFound) {
+      cart.push({
+        productId,
+        quantity: 1,
+      });
+    }
+
+    console.log(cart);
+  });
+});
