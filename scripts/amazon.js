@@ -1,3 +1,6 @@
+import { cart } from '../data/cart.js';
+import { products } from '../data/products.js';
+
 let productsHTML = "";
 
 products.forEach((product) => {
@@ -178,3 +181,36 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   });
 
 });
+
+/**
+ * ***Modules
+ * 
+ * in the html file , we lodaed multiple scripts, in one of script
+ * cart varibale is used, and we can't redclare this varible in another script
+ * that is the issue, that we do't know which varibale has already been created in any other scripts
+ * thats why we will use module, it will contains varibale inside a file
+ * 
+ * ***Create a module
+ * 
+ * create a file
+ * dont load the file with the script
+ * Any varibales we create inside the file, will be contained inside the file
+ * 
+ * 
+ * ***Get a varibale Out of a file
+ * 
+ * Add type="module" attribute in the script, in which you want to retrive
+ * export
+ * import
+ * 
+ * ***Notes
+ * 
+ * put all imports at the top of the file
+ * need to use open with live server
+ * 
+ * ***Benifits of module
+ * 
+ * Helps us avoid naming conflicts
+ * no need to worry of order of loading script files in html
+ * we can import like --- import { cart as mycart} from '../data/cart.js' and use it
+ */
