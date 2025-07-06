@@ -1,4 +1,4 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let productsHTML = "";
@@ -44,7 +44,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart js-added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
         </div>
@@ -57,6 +57,16 @@ products.forEach((product) => {
     </div>
     `;
 });
+
+function updateCartQuantity() {
+  let totalCartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    totalCartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = totalCartQuantity;
+}
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
@@ -111,37 +121,17 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     */
     const { productId } = button.dataset;
 
-    let quantity = Number(
-      document.querySelector(`.js-quantity-selector-${productId}`).value
-    );
-
-    let matchingProductFound = false;
-
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        item.quantity += quantity;
-        matchingProductFound = true;
-      }
-    });
-
-    if (!matchingProductFound) {
-      cart.push({
-        productId,
-        quantity,
-      });
-    }
+    //add to cart
+    addToCart(productId);
 
     console.log(cart);
-    // calulating the total quantity
-    let totalCartQuantity = 0;
-    cart.forEach((item) => {
-      totalCartQuantity += item.quantity;
-    });
 
-    document.querySelector(".js-cart-quantity").innerHTML = totalCartQuantity;
+    // calulating the total quantity
+    updateCartQuantity();
+    
 
     // Added message to the screen
-    const addedMesaage = document.querySelector(".js-added-to-cart");
+    const addedMesaage = document.querySelector(`.js-added-to-cart-${productId}`);
     addedMesaage.classList.add("added-to-cart-visible");
 
     // Check if there's a previous timeout for this
@@ -213,4 +203,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
  * Helps us avoid naming conflicts
  * no need to worry of order of loading script files in html
  * we can import like --- import { cart as mycart} from '../data/cart.js' and use it
+ * 
+ * Also we can import like -- import * as cartModule from 'path of file'
+ * then use like -- cartModule.addToCart(id); cartModule.cart
  */
