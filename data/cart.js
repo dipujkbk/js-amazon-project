@@ -33,6 +33,16 @@ export function removeFromCart(productId) {
   console.log("cart", cart);
 }
 
+export function updateQauntity(productId, quantity) {
+  cart.forEach((cartItem) => {
+    if (cartItem.productId === productId) {
+      cartItem.quantity = quantity;
+    }
+  });
+  saveToStorage();
+  console.log("cart now", cart);
+}
+
 export function updateCartQuantity() {
   let totalCartQuantity = 0;
 
