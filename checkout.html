@@ -83,6 +83,23 @@
         </div>
       </div>
     </div>
+
+    <!-- All external libaries should be loaded before the local js  -->
+     <script src="https://unpkg.com/supersimpledev@1.0.1/hello.js"></script>
+     <!-- 
+     Why we use external libraries
+
+     - let us share the code
+     - save time
+     - avoid duplicating work
+
+     -->
+    
+     <!--  
+     if you open this link , you will find Compressed version of js code 
+     this is called Minification , extraspaces removed and variable names are shortened
+    -->
+     <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
     <script type="module" src="scripts/checkout.js"></script>
   </body>
 </html>
