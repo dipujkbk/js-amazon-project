@@ -85,7 +85,7 @@
     </div>
 
     <!-- All external libaries should be loaded before the local js  -->
-     <script src="https://unpkg.com/supersimpledev@1.0.1/hello.js"></script>
+     <!-- <script src="https://unpkg.com/supersimpledev@1.0.1/hello.js"></script> -->
      <!-- 
      Why we use external libraries
 
@@ -99,7 +99,13 @@
      if you open this link , you will find Compressed version of js code 
      this is called Minification , extraspaces removed and variable names are shortened
     -->
-     <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+     <!-- <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script> -->
+
+     <!-- 
+     - But we have problem with the many scripts , because there it will cause naming conflicts 
+     - So we will use the module, for module + external libarires , we will use ESM(Ecmascript/Javascript Module) Version
+     - So it is a version that works with javascript modules 
+     -->
     <script type="module" src="scripts/checkout.js"></script>
   </body>
 </html>

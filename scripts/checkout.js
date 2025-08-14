@@ -6,6 +6,22 @@ import {
 } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import {deliveryOptions} from "../data/deliveryOptions.js";
+
+/**
+ * This syntax is called Named export
+ */
+
+import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'; 
+/**
+ * this syntax is called default export
+ * it is another way of exporting
+ * we can use it, when we only want to export 1 thing and that import thing must have been defaultly exported
+ * In one file, there can only one default export
+ * like in money.js file we can write --- export default formatCurrency;
+ * 
+ */
 
 //calling from extenal libary
 hello();
@@ -25,11 +41,21 @@ cart.forEach((cartItem) => {
   matchingProduct = products.filter((product) => product.id === productId)[0];
   console.log("matching product ", matchingProduct);
 
+  const deliveryOptionId = cartItem.deliveryOptionId;
+
+  let deliveryOption = deliveryOptions.filter(option => option.id === deliveryOptionId)[0];
+
+  const today = dayjs();
+
+  const deliveryDate = today.add(deliveryOption.deliveryDays, 'day');
+
+  const dateString = deliveryDate.format('dddd, MMMM D');
+
   cartSummaryHTML += `
     <div class="cart-item-container 
             js-cart-item-container-${productId}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date: ${dateString}
             </div>
 
             <div class="cart-item-details-grid">
@@ -64,45 +90,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${productId}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${productId}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${productId}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                ${deliveryOptionsHTML(cartItem)}
               </div>
             </div>
           </div>
@@ -182,3 +170,44 @@ function handleUpdateQuantity(productId, quantityInput) {
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML =
       quantity;
 }
+
+function deliveryOptionsHTML(cartItem) {
+  let deliveryHtml = '';
+  deliveryOptions.forEach((option)=> {
+
+    const today = dayjs();
+    const deliveryDate = today.add(
+      option.deliveryDays,
+      'day'
+    );
+
+    const dateString = deliveryDate.format('dddd, MMMM D');
+
+    const priceString = option.priceCents === 0 ? 'FREE': `$${formatCurrency(option.priceCents)} - `;
+
+    const isChecked = option.id === cartItem.deliveryOptionId;
+
+    deliveryHtml += 
+    `
+    <div class="delivery-option">
+        <input type="radio" ${isChecked ? 'checked': ''}
+            class="delivery-option-input"
+            name="delivery-option-${cartItem.productId}"
+            value="${dateString}"
+            >
+        <div>
+          <div class="delivery-option-date">
+            ${dateString}
+          </div>
+          <div class="delivery-option-price">
+            ${priceString} Shipping
+          </div>
+        </div>
+    </div>
+    
+    `
+  })
+
+  return deliveryHtml;
+}
+

@@ -201,3 +201,13 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
  * Also we can import like -- import * as cartModule from 'path of file'
  * then use like -- cartModule.addToCart(id); cartModule.cart
  */
+
+
+/*** MAIN IDEA OF JAVASCRIPT ****/
+
+/**
+ * Save the data
+ * Generate the HTML
+ * Make it interactive
+ */
+
