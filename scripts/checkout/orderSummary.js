@@ -29,12 +29,12 @@ import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
  */
 
 //calling from extenal libary
-hello();
+// hello();
 
-const today = dayjs();
-const deliveryDate = today.add(7, "day");
-console.log(deliveryDate);
-console.log(deliveryDate.format("dddd, MMMM D"));
+// const today = dayjs();
+// const deliveryDate = today.add(7, "day");
+// console.log(deliveryDate);
+// console.log(deliveryDate.format("dddd, MMMM D"));
 
 // To update the page we are moving this into the function
 
@@ -120,6 +120,8 @@ export function renderOrderSummary() {
       removeFromCart(productId);
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       checkoutItemsUpdate();
+
+      renderPaymentSummary();
     });
   });
 
@@ -173,6 +175,8 @@ export function renderOrderSummary() {
 
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML =
       quantity;
+    
+    renderPaymentSummary();
   }
 
   function deliveryOptionsHTML(cartItem) {
