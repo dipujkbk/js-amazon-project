@@ -5,9 +5,13 @@ import {
   updateQauntity,
   updateDeliveryOption,
 } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import {
+  deliveryOptions,
+  getDeliveryOption,
+} from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 /**
  * This syntax is called Named export
@@ -40,16 +44,12 @@ export function renderOrderSummary() {
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
 
-    let matchingProduct;
-
-    matchingProduct = products.filter((product) => product.id === productId)[0];
+    const matchingProduct = getProduct(productId);
     console.log("matching product ", matchingProduct);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption = deliveryOptions.filter(
-      (option) => option.id === deliveryOptionId
-    )[0];
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
 
@@ -224,6 +224,7 @@ export function renderOrderSummary() {
 
       // reload the page using calling the function
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
@@ -236,4 +237,3 @@ export function renderOrderSummary() {
  * 2. View = takes the data and displays it on the page, here checkout.js
  * 3. Controller = runs some when we interact with the view, here add event listeners
  * */
-
