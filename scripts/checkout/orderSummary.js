@@ -12,6 +12,8 @@ import {
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
+import { calculateDeliveryDate } from "../../data/deliveryOptions.js";
 
 /**
  * This syntax is called Named export
@@ -51,11 +53,7 @@ export function renderOrderSummary() {
 
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    const today = dayjs();
-
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "day");
-
-    const dateString = deliveryDate.format("dddd, MMMM D");
+    const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
     <div class="cart-item-container 
@@ -105,23 +103,16 @@ export function renderOrderSummary() {
   });
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
-  function checkoutItemsUpdate() {
-    document.querySelector(
-      ".js-return-to-home-link"
-    ).innerHTML = `${updateCartQuantity()} items`;
-  }
-
-  checkoutItemsUpdate();
-
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
       const { productId } = link.dataset;
       console.log("link product id ", productId);
       removeFromCart(productId);
-    //   document.querySelector(`.js-cart-item-container-${productId}`).remove();
-      checkoutItemsUpdate();
+      //   document.querySelector(`.js-cart-item-container-${productId}`).remove();
+
       renderOrderSummary();
       renderPaymentSummary();
+      renderCheckoutHeader();
     });
   });
 
@@ -171,21 +162,17 @@ export function renderOrderSummary() {
 
     editingProductElement.classList.remove("is-editing-quantity");
 
-    checkoutItemsUpdate();
-
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML =
       quantity;
-    
+
     renderPaymentSummary();
+    renderCheckoutHeader();
   }
 
   function deliveryOptionsHTML(cartItem) {
     let deliveryHtml = "";
     deliveryOptions.forEach((option) => {
-      const today = dayjs();
-      const deliveryDate = today.add(option.deliveryDays, "day");
-
-      const dateString = deliveryDate.format("dddd, MMMM D");
+      const dateString = calculateDeliveryDate(option);
 
       const priceString =
         option.priceCents === 0
