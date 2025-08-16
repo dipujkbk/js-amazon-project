@@ -2,20 +2,20 @@
 
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
+  #loadFromStorage() {
     this.cartItems =
-      JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+      JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productId) {
@@ -94,10 +94,18 @@ console.log("normalCart>>", normalCart);
 console.log("businessCart>>", businessCart);
 
 console.log(businessCart instanceof Cart);
+ 
+// normalCart.#localStorageKey = 'abc'; //---> This will give the error , as we are trying to access the private property.
 
 // Constructor
 /**
  * The method has to be named "constructor"
  * should not return anything
  *
+ */
+
+//Private and public property
+/**
+ * A property with starting with # is called Private property
+ * A property without # is public property
  */
