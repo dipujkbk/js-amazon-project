@@ -57,6 +57,7 @@ export function renderOrderSummary() {
 
     cartSummaryHTML += `
     <div class="cart-item-container 
+            js-cart-item-container
             js-cart-item-container-${productId}">
             <div class="delivery-date">
               Delivery date: ${dateString}
@@ -84,7 +85,7 @@ export function renderOrderSummary() {
                   </span>
                   <input class="quantity-input js-quantity-input-${productId}">
                   <span class="save-quantity-link link-primary js-save-link" data-product-id="${productId}">Save</span>
-                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${productId}">
+                  <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${productId}" data-product-id="${productId}">
                     Delete
                   </span>
                 </div>
