@@ -503,3 +503,83 @@ export const products = [
     keywords: ["rain", "umbrella", "handbag", "mens"],
   },
 ];
+
+//Concept about this
+/**
+ * "this" lets an object access its own properties
+ * Originally in javascript , this=window
+ * but inside the module , this= undefined, if there is no object
+ *
+ * const object1 = {
+ *  a:2,
+ *  b: this.a
+ * }
+ * Here it will give error
+ * because , the object is not created yet , this will be undefined and there is no object to point to this,
+ *
+ * but if we are inside the method , then this reperesents the outer object
+ *
+ */
+
+//Note:-  Inside a regualr function, this is undefined
+
+function logThis() {
+  console.log(this);
+}
+
+logThis(); // undefined
+
+// But inside a function we can change "this" to whatever we want using call(), where the first param is the value of this
+// call(this, param1, param2,...)
+
+logThis.call("hello"); // it will print hello
+
+//Arrow function dont change the value of this
+
+console.log("outside the arrow funtion>>>", this); // undefiend
+const object2 = {
+  method: () => {
+    console.log(this); //undefined
+  },
+};
+
+object2.method();
+
+// usually this inside the method points to the object outside, but here in arrow fucntion
+// whatever value of "this" in outside the arrow function that will be the value
+// Note:-  "this"  kepps the value that it had outside the arrow function
+
+// Common Problem
+
+const object3 = {
+  method() {
+    console.log("inside object 3 method>>", this); // object3
+
+    [1, 2, 3].forEach(function () {
+      console.log("Inside the for loop of object3 method>>", this); // undefined, beacuse inside regualr function this is undefiend
+    });
+  },
+};
+
+object3.method();
+
+const object4 = {
+  method() {
+    console.log("inside object 4 method>>", this); // object4
+
+    [1, 2, 3].forEach(() => {
+      console.log("Inside the for loop of object3 method>>", this); // here outside the arrow function value of this is object4
+    });
+  },
+};
+
+object4.method();
+
+//Note:
+
+/**
+ * Inside a method , "this" points to outer object
+ * Inside a function, "this" =  undefined, but we can change it using call
+ * Arrow function don't change the value of this
+ *
+ */
