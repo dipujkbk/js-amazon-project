@@ -1,11 +1,14 @@
-import { cart, addToCart, updateCartQuantity } from '../data/cart.js';
-import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import { cart, addToCart, updateCartQuantity } from "../data/cart.js";
+import { products, loadProducts } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
 
-let productsHTML = "";
+loadProducts(renderProductsGrid);
 
-products.forEach((product) => {
-  productsHTML += `
+function renderProductsGrid() {
+  let productsHTML = "";
+
+  products.forEach((product) => {
+    productsHTML += `
     <div class="product-container">
         <div class="product-image-container">
             <img class="product-image"
@@ -57,29 +60,29 @@ products.forEach((product) => {
         </button>
     </div>
     `;
-});
-function cartQuantityUpdate() {
-  document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
-}
-cartQuantityUpdate();
+  });
+  function cartQuantityUpdate() {
+    document.querySelector(".js-cart-quantity").innerHTML =
+      updateCartQuantity();
+  }
+  cartQuantityUpdate();
 
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-// We're going to use an object to save the timeout ids.
-// The reason we use an object is because each product
-// will have its own timeoutId. So an object lets us
-// save multiple timeout ids for different products.
-// For example:
-// {
-//   'product-id1': 2,
-//   'product-id2': 5,
-//   ...
-// }
-// (2 and 5 are ids that are returned when we call setTimeout).
-const addedMessageTimeouts = {};
+  // We're going to use an object to save the timeout ids.
+  // The reason we use an object is because each product
+  // will have its own timeoutId. So an object lets us
+  // save multiple timeout ids for different products.
+  // For example:
+  // {
+  //   'product-id1': 2,
+  //   'product-id2': 5,
+  //   ...
+  // }
+  // (2 and 5 are ids that are returned when we call setTimeout).
+  const addedMessageTimeouts = {};
 
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     // This solution uses a feature of JavaScript called a
     // closure. Each time we run the loop, it will create
     // a new variable called addedMessageTimeoutId and do
@@ -102,8 +105,8 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     let addedMessageTimeoutId;
     */
 
-  button.addEventListener("click", () => {
-    /*
+    button.addEventListener("click", () => {
+      /*
         - Now how do we know which product to add when we click
         - So here we will use data attribute in html
 
@@ -114,39 +117,40 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
             button.dataset.productMap
 
     */
-    const { productId } = button.dataset;
+      const { productId } = button.dataset;
 
-    //add to cart
-    addToCart(productId);
+      //add to cart
+      addToCart(productId);
 
-    console.log(cart);
+      console.log(cart);
 
-    // calulating the total quantity
-    cartQuantityUpdate();
-    
-    // Added message to the screen
-    const addedMesaage = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedMesaage.classList.add("added-to-cart-visible");
+      // calulating the total quantity
+      cartQuantityUpdate();
 
-    // Check if there's a previous timeout for this
-    // product. If there is, we should stop it.
+      // Added message to the screen
+      const addedMesaage = document.querySelector(
+        `.js-added-to-cart-${productId}`
+      );
+      addedMesaage.classList.add("added-to-cart-visible");
 
-    const previousTimeoutId = addedMessageTimeouts[productId];
+      // Check if there's a previous timeout for this
+      // product. If there is, we should stop it.
 
-    if (previousTimeoutId) {
-      clearTimeout(previousTimeoutId);
-    }
+      const previousTimeoutId = addedMessageTimeouts[productId];
 
-    const timeoutId = setTimeout(() => {
-      addedMesaage.classList.remove("added-to-cart-visible");
-    }, 2000);
+      if (previousTimeoutId) {
+        clearTimeout(previousTimeoutId);
+      }
 
-    // Save the timeoutId for this product
-    // so we can stop it later if we need to.
-    addedMessageTimeouts[productId] = timeoutId;
+      const timeoutId = setTimeout(() => {
+        addedMesaage.classList.remove("added-to-cart-visible");
+      }, 2000);
 
+      // Save the timeoutId for this product
+      // so we can stop it later if we need to.
+      addedMessageTimeouts[productId] = timeoutId;
 
-    /**
+      /**
      * code of clousre type solution
      * 
      *  // Check if a previous timeoutId exists. If it does,
@@ -162,46 +166,45 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       // Save the timeoutId so we can stop it later.
       addedMessageTimeoutId = timeoutId;
      */
+    });
   });
-
-});
+}
 
 /**
  * ***Modules
- * 
+ *
  * in the html file , we lodaed multiple scripts, in one of script
  * cart varibale is used, and we can't redclare this varible in another script
  * that is the issue, that we do't know which varibale has already been created in any other scripts
  * thats why we will use module, it will contains varibale inside a file
- * 
+ *
  * ***Create a module
- * 
+ *
  * create a file
  * dont load the file with the script
  * Any varibales we create inside the file, will be contained inside the file
- * 
- * 
+ *
+ *
  * ***Get a varibale Out of a file
- * 
+ *
  * Add type="module" attribute in the script, in which you want to retrive
  * export
  * import
- * 
+ *
  * ***Notes
- * 
+ *
  * put all imports at the top of the file
  * need to use open with live server
- * 
+ *
  * ***Benifits of module
- * 
+ *
  * Helps us avoid naming conflicts
  * no need to worry of order of loading script files in html
  * we can import like --- import { cart as mycart} from '../data/cart.js' and use it
- * 
+ *
  * Also we can import like -- import * as cartModule from 'path of file'
  * then use like -- cartModule.addToCart(id); cartModule.cart
  */
-
 
 /*** MAIN IDEA OF JAVASCRIPT ****/
 
@@ -210,4 +213,3 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
  * Generate the HTML
  * Make it interactive
  */
-
