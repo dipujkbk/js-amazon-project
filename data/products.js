@@ -505,24 +505,21 @@ export function getProduct(productId) {
 // ];
 
 export let products = [];
-export function loadProducts( func ) {
-
+export function loadProducts(func) {
   const xhr = new XMLHttpRequest();
 
-  xhr.addEventListener('load', ()=>{
-    console.log('response from server-->', xhr.response);
+  xhr.addEventListener("load", () => {
+    console.log("response from server-->", xhr.response);
 
     products = JSON.parse(xhr.response);
 
-    console.log('products', products);
+    console.log("products from the server>>", products);
     func();
   });
 
-  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
-
 }
-
 
 //Concept about this
 /**
