@@ -24,12 +24,13 @@ loadProducts(() => {
  * resolve and reject are the two functions
  */
 
+/*
 loadProductsFetch().then(() => {
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeader();
 });
-
+*/
 /*
 new Promise((resolve) => {
   console.log("It runs the function immidiately");
@@ -48,3 +49,61 @@ new Promise((resolve) => {
 });
 */
 //Promise.all([]) -->takes array of promises
+
+//async and await
+/**
+ * async = makes a function return a promise
+ * async lets us use await
+ * await  = lets us wait for a promise to finish, before going to next line
+ * await = lets us write asynchronous code like normal code
+ * we can only use await , when we are inside an async function
+ */
+
+//same as
+/*
+function loadPage() {
+  return new Promise((resolve) => {
+    console.log("load page");
+    resolve();
+  })
+    .then(() => {
+      return loadProductsFetch();
+    })
+    .then(() => {
+      return new Promise((resolve) => {
+        resolve("value2");
+      });
+    });
+}
+*/
+async function loadPage() {
+  console.log("load page");
+
+  await loadProductsFetch();
+  
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+
+  return "value2"; // it's like resolve('value2');
+}
+
+loadPage().then((value) => {
+  console.log("next step in async load page");
+  console.log("parameter from return ", value);
+});
+
+
+/**
+ * More example
+ */
+
+async function outerFunction() {
+  const value = await new Promise((resolve)=> {
+    console.log('Inside the outerfunction promise');
+    resolve('value3'); // so whatever value will pass from the resolve , this will return it.
+  })
+  console.log('value from await', value);
+}
+
+outerFunction();
