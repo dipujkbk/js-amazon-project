@@ -77,15 +77,17 @@ function loadPage() {
 }
 */
 async function loadPage() {
-  console.log("load page");
+  try {
+    console.log("load page");
 
-  await loadProductsFetch();
-  
-  renderOrderSummary();
-  renderPaymentSummary();
-  renderCheckoutHeader();
-
-  return "value2"; // it's like resolve('value2');
+    await loadProductsFetch();
+    renderOrderSummary();
+    renderPaymentSummary();
+    renderCheckoutHeader();
+    return "value2"; // it's like resolve('value2');
+  } catch (error) {
+    console.log("error in try catch ", error);
+  }
 }
 
 loadPage().then((value) => {
@@ -93,17 +95,16 @@ loadPage().then((value) => {
   console.log("parameter from return ", value);
 });
 
-
 /**
  * More example
  */
 
 async function outerFunction() {
-  const value = await new Promise((resolve)=> {
-    console.log('Inside the outerfunction promise');
-    resolve('value3'); // so whatever value will pass from the resolve , this will return it.
-  })
-  console.log('value from await', value);
+  const value = await new Promise((resolve) => {
+    console.log("Inside the outerfunction promise");
+    resolve("value3"); // so whatever value will pass from the resolve , this will return it.
+  });
+  console.log("value from await", value);
 }
 
 outerFunction();

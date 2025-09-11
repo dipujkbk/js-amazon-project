@@ -515,7 +515,10 @@ export function loadProductsFetch() {
     .then((productsData) => {
       console.log("productsData", productsData);
       products = productsData;
-    });
+    })
+    .catch((error)=>{
+      console.log('error occured', error);
+    })
 
   console.log("Products loaded");
   return promise;
@@ -539,6 +542,10 @@ export function loadProducts(func) {
     console.log("products from the server>>", products);
     func();
   });
+
+  xhr.addEventListener('error', (error) => {
+    console.log('error occurred');
+  })
 
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
