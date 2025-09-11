@@ -505,6 +505,29 @@ export function getProduct(productId) {
 // ];
 
 export let products = [];
+
+export function loadProductsFetch() {
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      console.log("response from fetch >>", response);
+      return response.json(); // it is aschyncrous so  we need to wait to finish this promise before we continue to next step
+    })
+    .then((productsData) => {
+      console.log("productsData", productsData);
+      products = productsData;
+    });
+
+  console.log("Products loaded");
+  return promise;
+}
+
+/*
+loadProductsFetch().then(() => {
+  console.log("Next step");
+});
+*/
+/*
+
 export function loadProducts(func) {
   const xhr = new XMLHttpRequest();
 
@@ -520,6 +543,8 @@ export function loadProducts(func) {
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
+
+*/
 
 //Concept about this
 /**

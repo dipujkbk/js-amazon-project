@@ -2,16 +2,18 @@ import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 
-import { loadProducts } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 
 import "../data/cart-class.js"; // This runs all the codes inside the file , without importing anyhting
 // import "../data/backend-pratice.js";
 
+/*
 loadProducts(() => {
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeader();
 });
+*/
 
 //Promises
 
@@ -22,6 +24,13 @@ loadProducts(() => {
  * resolve and reject are the two functions
  */
 
+loadProductsFetch().then(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+});
+
+/*
 new Promise((resolve) => {
   console.log("It runs the function immidiately");
   console.log("start promise");
@@ -31,11 +40,11 @@ new Promise((resolve) => {
     console.log("after resolve");
   });
 }).then((value) => {
-  console.log("parameter passed from resolve");
+  console.log("parameter passed from resolve", value);
   console.log("Next step");
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeader();
 });
-
+*/
 //Promise.all([]) -->takes array of promises
