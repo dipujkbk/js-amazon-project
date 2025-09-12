@@ -22,6 +22,7 @@ loadProducts(() => {
  * Similar to done() function
  * Let us wait for some code to finish, before going to the next step
  * resolve and reject are the two functions
+ * reject creats an error in the future
  */
 
 /*
@@ -108,3 +109,5 @@ async function outerFunction() {
 }
 
 outerFunction();
+
+//we can create error in promises using throw or reject
