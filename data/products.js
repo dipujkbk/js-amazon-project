@@ -1,4 +1,5 @@
 export function getProduct(productId) {
+  console.log("Products in getProduct>>>", products);
   let matchingProductArray = products.filter(
     (productItem) => productItem.id === productId
   );
